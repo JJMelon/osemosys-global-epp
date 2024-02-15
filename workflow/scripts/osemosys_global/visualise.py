@@ -76,8 +76,8 @@ def plot_total_capacity(data: Dict[str,pd.DataFrame], save_dir: str, country:str
     """
 
     df = get_total_capacity_data(data, country=country)
-    # plot_colors = get_color_codes()
-    plot_colors = constants.COLORS
+    plot_colors = get_color_codes()
+    # plot_colors = constants.COLORS
 
     if not country: # System level titles
         graph_title = 'Total System Capacity'

@@ -13,6 +13,29 @@ from osemosys_global.visualisation.data import get_total_capacity_data, get_gene
 import osemosys_global.constants as constants
 from configuration import ConfigFile, ConfigPaths
 
+label_mapping = {
+    'BIO': 'Biomass',
+    'CCG': 'Gas - Combined cycle',
+    'COA': 'Coal',
+    'COG': 'Cogeneration',
+    'CSP': 'Concentrated Solar Power',
+    'ELC': 'Electricity',
+    'GAS': 'Natural gas',
+    'GEO': 'Geothermal',
+    'HYD': 'Hydroelectric',
+    'OCG': 'Gas - Open Cycle',
+    'OIL': 'Oil',
+    'OTH': 'Other',
+    'PET': 'Petroleum',
+    'SOL': 'Solar',
+    'SPV': 'Solar Photovoltaic',
+    'URN': 'Nuclear',
+    'WAS': 'Waste',
+    'WAV': 'Wave',
+    'WOF': 'Wind - Offshore',
+    'WON': 'Wind - Onshore',
+    'INT': 'International'
+}
 
 def main(
     input_data: pd.DataFrame,
@@ -75,9 +98,9 @@ def plot_total_capacity(data: Dict[str,pd.DataFrame], save_dir: str, country:str
             system level
     """
 
-    df = get_total_capacity_data(data, country=country)
+    df = get_total_capacity_data(data, country=None)
     plot_colors = get_color_codes()
-    # plot_colors = constants.COLORS
+    
 
     if not country: # System level titles
         graph_title = 'Total System Capacity'
@@ -85,6 +108,7 @@ def plot_total_capacity(data: Dict[str,pd.DataFrame], save_dir: str, country:str
     else: # Country level titles
         graph_title = f'{country} System Capacity'
         legend_title = 'Country-Powerplant'
+        
 
     fig = px.bar(df,
                  x='YEAR',
@@ -96,6 +120,9 @@ def plot_total_capacity(data: Dict[str,pd.DataFrame], save_dir: str, country:str
                          'VALUE': 'Gigawatts (GW)',
                          'LABEL': legend_title},
                  title=graph_title)
+
+    # Update legend labels
+    fig.for_each_trace(lambda t: t.update(name=label_mapping.get(t.name, t.name)))
     
     fig.update_layout(
         font_family="Arial",
@@ -122,7 +149,7 @@ def plot_generation_annual(data: Dict[str,pd.DataFrame], save_dir: str, country:
             If a country provided, plot at a country level, else plot at a 
             system level
     """
-
+    
     df = get_generation_annual_data(data, country=None)
     plot_colors = get_color_codes()
 
@@ -133,14 +160,17 @@ def plot_generation_annual(data: Dict[str,pd.DataFrame], save_dir: str, country:
         graph_title = f'{country} System Generation'
         legend_title = 'Country-Powerplant'
 
+    # Convert Petajoules to Terawatt hours
+    df['VALUE_TWh'] = df['VALUE'] * 0.2778
+
     fig = px.bar(df,
                  x='YEAR',
-                 y='VALUE',
+                 y='VALUE_TWh',
                  color='LABEL',
                  color_discrete_map=plot_colors,
                  template='plotly_white',
                  labels={'YEAR': 'Year',
-                         'VALUE': 'Petajoules (PJ)',
+                         'VALUE_TWh': 'Terawatt hours (TWh)',
                          'LABEL': legend_title},
                  title=graph_title)
     fig.update_layout(
@@ -151,6 +181,9 @@ def plot_generation_annual(data: Dict[str,pd.DataFrame], save_dir: str, country:
     fig['layout']['title']['font'] = dict(size=24)
     fig.update_traces(marker_line_width=0,
                       opacity=0.8)
+
+    # Update legend labels
+    fig.for_each_trace(lambda t: t.update(name=label_mapping.get(t.name, t.name)))
 
     if country:
         fig_file = os.path.join(save_dir, country, 'GenerationAnnual.html')
@@ -193,6 +226,9 @@ def plot_generation_hourly(
                   template='seaborn+plotly_white',
                   labels={
                       "variable":"",})
+
+    fig.for_each_trace(lambda t: t.update(name=label_mapping.get(t.name, t.name)))
+    
     fig.update_layout(
         legend_traceorder="reversed",
         title_x=0.5,

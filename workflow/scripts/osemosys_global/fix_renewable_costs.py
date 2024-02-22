@@ -3,15 +3,15 @@ import sys
 
 # Sets the power plant fixed costs to the level at year 2020
 
-PROJECTION_YEARS = 31
+PROJECTION_YEARS = 26
 def modify_csv(file_path):
     # Read the CSV file into a DataFrame
     df = pd.read_csv(file_path)
 
     # Iterate over each row in the DataFrame
     for index, row in df.iterrows():
-        # Check if the YEAR column has entry "2020"
-        if row['YEAR'] == 2020:
+        # Check if row is first in 25 year series 
+        if row['YEAR'] == 2025:
             # Get the value to replace with
             replace_value = row['VALUE']
             # Update the next 29 rows' VALUE column with the replace_value

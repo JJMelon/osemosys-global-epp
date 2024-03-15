@@ -126,7 +126,7 @@ def plot_total_capacity(data: Dict[str,pd.DataFrame], save_dir: str, country:str
     
     fig.update_layout(
         font_family="Arial",
-        font_size=14,
+        font_size=24,
         legend_traceorder="reversed",
         title_x=0.5)
     fig['layout']['title']['font'] = dict(size=24)

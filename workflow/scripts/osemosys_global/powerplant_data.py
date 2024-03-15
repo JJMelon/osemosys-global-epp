@@ -19,7 +19,24 @@ from utils import apply_dtypes
 import logging 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 import os
-from scipy import spatial
+from scipy import spatial, interpolate
+
+# Interpolate helper function
+
+def interp(y, x=None):
+    if x is None:
+        x = np.arange(len(y))
+    nans = np.isnan(y)
+
+    interpolator = interpolate.interp1d(
+        x[~nans],
+        y[~nans],
+        kind="linear",
+        fill_value="extrapolate",
+        assume_sorted=True,
+    )
+
+    return interpolator(x)
 
 def main():
     
@@ -1049,10 +1066,20 @@ def main():
         #                         inplace = True)
 
 
-        df_costs_final = df_costs_final.interpolate(method = 'linear', 
-                                                    limit_direction='forward').round(2)
-        df_costs_final = df_costs_final.interpolate(method = 'linear', 
-                                                    limit_direction='backward').round(2)
+        # OLD Interpolate - doesn't extrapolate past final value at 2040
+        # df_costs_final = df_costs_final.interpolate(method = 'linear', 
+        #                                            limit_direction='backward').round(2)
+        # df_costs_final = df_costs_final.interpolate(method = 'linear', 
+        #                                            limit_direction='backward').round(2)
+
+
+        # NEW Extrapolate Method
+        for column in df_costs_final.columns:
+            if column != 'REGION' and column != 'YEAR':
+                y = df_costs_final[column].values
+                df_costs_final[column] = interp(y)
+
+
         df_costs_final = pd.melt(df_costs_final, 
                                  id_vars = ['REGION', 'YEAR'], 
                                  value_vars = [x for x in df_costs_final.columns

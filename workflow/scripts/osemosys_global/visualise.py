@@ -110,7 +110,7 @@ def plot_total_capacity(data: Dict[str,pd.DataFrame], save_dir: str, country:str
         legend_title = 'Country-Powerplant'
         
 
-    fig = px.bar(df,
+    fig = px.area(df,
                  x='YEAR',
                  y='VALUE',
                  color='LABEL',

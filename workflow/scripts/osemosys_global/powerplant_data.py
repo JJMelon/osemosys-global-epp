@@ -1091,6 +1091,12 @@ def main():
         df_costs_final = df_costs_final[['REGION', 'TECHNOLOGY', 'YEAR', 'VALUE']]
         df_costs_final = df_costs_final[~df_costs_final['VALUE'].isnull()]
 
+        scalar = 1.0
+        technology_strings = ['SPV', 'WOF', 'WON','CSP', 'GEO', 'HYD','SOL', 'WAV', 'BIO','WAS']
+        filtered_df = df_costs_final[df_costs_final['TECHNOLOGY'].str.contains('|'.join(technology_strings))]
+        filtered_df['VALUE'] *= scalar
+        df_costs_final.update(filtered_df)
+        
         if each_cost in ['Capital']:
             df_costs_final = df_costs_final.merge(df_trans_capex, how='outer')
             df_costs_final = apply_dtypes(df_costs_final, "CapitalCost")

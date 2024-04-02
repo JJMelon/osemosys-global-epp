@@ -465,8 +465,7 @@ if __name__ == '__main__':
             print(f"Usage: python {sys.argv[0]} <input_data.csv> <result_data.csv> <scenario_figs_dir> <cost_line_expansion_xlsx> <countries> <results_by_country> <years>")
             sys.exit(1)
 
-'''
-# ### Interactive visualisation of residual capacity by node
+'''# ### Interactive visualisation of residual capacity by node
 
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set(color_codes = True)
@@ -482,8 +481,8 @@ pyo.init_notebook_mode()
 cufflinks.go_offline()
 cufflinks.set_config_file(world_readable=True, theme='white')
 
-color_codes = pd.read_csv(r'data\color_codes.csv', encoding='latin-1')
-color_dict = dict([(n,c) for n,c in zip(color_codes.tech, color_codes.colour)])
+color_codes = pd.read_csv('resources/data/color_codes.csv', encoding='latin-1')
+color_dict = dict([(n,c) for n,c in zip(color_codes.tech_id, color_codes.colour)])
 
 def f(node):
     df_plot = df_res_cap_plot.loc[df_res_cap_plot['node_code']==node]

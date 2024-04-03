@@ -50,7 +50,7 @@ def main():
 
     # GET CAPAPCITY LIMITS FROM PLEXOS WORLD 
     # This is capacity ADDITION limits, not total max capacity limits 
-
+    breakpoint()
     df_reslimit_units = df_reslimit.loc[(df_reslimit['child_object'].str.contains('|'.join(dict_reslimit.keys()))) & 
                                   (df_reslimit['property'] == 'Max Units Built') &
                                   (df_reslimit['scenario'].str.contains('Base')) &
@@ -93,6 +93,7 @@ def main():
 
     out_data = []
     for tech, maxad in cap_addition_limit.items():
+        breakpoint()
         try:
             max_capacity = res_cap[tech] + maxad
         except KeyError:

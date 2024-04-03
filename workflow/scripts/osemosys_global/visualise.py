@@ -465,7 +465,8 @@ if __name__ == '__main__':
             print(f"Usage: python {sys.argv[0]} <input_data.csv> <result_data.csv> <scenario_figs_dir> <cost_line_expansion_xlsx> <countries> <results_by_country> <years>")
             sys.exit(1)
 
-'''# ### Interactive visualisation of residual capacity by node
+
+# ### Interactive visualisation of residual capacity by node
 
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set(color_codes = True)
@@ -512,4 +513,4 @@ interact(f,
                                             )
                                 )
         )
-'''
+

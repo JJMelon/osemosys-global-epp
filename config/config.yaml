@@ -1,8 +1,11 @@
-# Scenario Name 
-scenario: 'India'
+# Scenario Name
+scenario: 'United-States-RenewablesFixedCost'
 
-# Temporal Parameters 
-startYear: 2020
+# Change input data - run script after inputs are generated
+custom_data: True
+
+# Temporal Parameters
+startYear: 2025
 endYear: 2050
 daytype: False
 dayparts:
@@ -16,36 +19,35 @@ seasons:
   S3: [6, 7, 8]
   S4: [9, 10, 11]
 timeshift: 5 # value between -11 and 12
-  
-# Spatial Parameters 
-geographic_scope:
-    - 'IND'
-crossborderTrade: True
 
-# Emission Parameters 
+# Spatial Parameters
+geographic_scope:
+    - 'USA'
+crossborderTrade: False
+
+# Emission Parameters
 emission_penalty: 0 # M$/MT CO2
 
-# Investment Parameters 
-no_invest_technologies: 
+# Investment Parameters
+no_invest_technologies:
   - 'GEO'
-  - 'CSP'
-  - 'WAV'
+  - 'OTH'
   - 'BIO'
-  - 'URN'
+  - 'COA'
 
-# Result Parameters 
-results_by_country: True
+# Result Parameters
+results_by_country: False
 
 # solver parameters
-solver: 'cbc' # cbc, cplex, gurobi
+solver: 'gurobi' # cbc, cplex, gurobi
 
 user_defined_capacity:
   # technology: [capacity, first_year,]
 
 nodes_to_add:
- #- 'AAAXX' where AAA is a 3-letter country code, 
- # specified in the 'geographic scope' 
- # and XX is a 2-letter sub-regional node code. 
+ #- 'AAAXX' where AAA is a 3-letter country code,
+ # specified in the 'geographic scope'
+ # and XX is a 2-letter sub-regional node code.
  # E.g. - 'IDNSM' for a sub-regional node in Sumatra, Indonesia.
  # - 'IDNSM'
  # - 'IDNJW'

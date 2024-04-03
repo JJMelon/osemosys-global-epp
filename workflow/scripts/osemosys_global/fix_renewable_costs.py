@@ -1,7 +1,7 @@
 import pandas as pd
 import sys
 
-# Sets the power plant fixed costs to the level at year 2020
+# Sets the power plant fixed costs and capital cost to the level at year 2020
 
 PROJECTION_YEARS = 26
 def modify_csv(file_path):
@@ -24,12 +24,15 @@ def modify_csv(file_path):
 if __name__ == "__main__":
     # Check if the filename argument is provided
     if len(sys.argv) != 2:
-        print("Usage: python script.py <file_name>")
+        print("Usage: python fix_costs.py <scenario>")
         sys.exit(1)
-
-    file_name = sys.argv[1]
+    
+    scenario = sys.argv[1]
+    fixed_path = f'results/{scenario}/data/FixedCost.csv'
+    capital_path = f'results/{scenario}/data/CapitalCost.csv' 
     try:
-        modify_csv(file_name)
-        print("File modified successfully.")
+        modify_csv(fixed_path)
+        modify_csv(capital_path)
+        print("Files modified successfully.")
     except Exception as e:
         print("An error occurred:", e)

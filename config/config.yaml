@@ -23,15 +23,15 @@ timeshift: 0 # value between -11 and 12
   
 # Spatial Parameters 
 geographic_scope:
-  - 'IDN'
+  - 'USA'
 
-crossborderTrade: True
+crossborderTrade: False
 
 # Emission Parameters 
 emission_penalty: 
 # - [EMISSION, COUNTRY, START_YEAR, END_YEAR, VALUE]
 # where VALUE is in M$/MT CO2
- - ['CO2', 'IDN', 2020, 2050, 2.1]
+ - ['CO2', 'IDN', 2020, 2050, 0]
 
 # Investment Parameters 
 no_invest_technologies: 
@@ -100,7 +100,7 @@ emission_limit:
 # where VALUE is emissions in million tonnes of CO2-equivalent and YEAR is  
 # when that constraint must be adhered to. All years between multiple emission 
 # constraints will be interpolated.
- - ['CO2', 'IDN', 2040, 1]
+# - ['CO2', 'IDN', 2040, 1]
 
 fuel_limits:
 # FUEL: [VALUE, COUNTRY/INTERNATIONAL, YEAR]
